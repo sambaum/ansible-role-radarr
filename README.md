@@ -1,7 +1,7 @@
-Sonarr
+Radarr
 =========
 
-This role install sonarr and configures autostart (systemd)
+This role install radarr and configures autostart (systemd)
 
 Requirements
 ------------
@@ -12,8 +12,8 @@ Role Variables
 --------------
 
 Variables with defaults:
-  - sonarr_user: nzbdrone
-  - sonarr_group: nzbdrone
+  - radarr_user: nzbdrone
+  - radarr_group: nzbdrone
 
 Dependencies
 ------------
@@ -27,7 +27,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: ansible-role-sonarr }
+         - { role: ansible-role-radarr }
 
 License
 -------
