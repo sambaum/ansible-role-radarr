@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-role-sonarr
+radarr_user: nzbdrone
+radarr_group: nzbdrone

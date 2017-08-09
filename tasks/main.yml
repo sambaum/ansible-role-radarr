@@ -1,0 +1,52 @@
+---
+# tasks file for ansible-role-sonarr
+
+#- name: Adding key EBFF6B99D9B78493
+#  apt_key:
+#    keyserver: keyserver.ubuntu.com
+#    id: EBFF6B99D9B78493
+#
+#- name: Adding repository http://apt.sonarr.tv/
+#  apt_repository:
+#    repo: deb http://apt.sonarr.tv/ master main
+#    state: present
+
+- name: Installing packages 
+  package:
+     name: "{{ item }}"
+     state: present
+  with_items:
+     - mono-devel
+     - mediainfo
+     - sqlite3
+     - libmono-cil-dev
+
+- name: Add user "{{radarr_user}}"
+  user:
+    name: "{{radarr_user}}"
+
+- name: Installing Radarr
+  unarchive:
+    src: https://github.com/Radarr/Radarr/releases/download/v0.2.0.778/Radarr.develop.0.2.0.778.linux.tar.gz
+    dest: /opt/
+    owner: "{{radarr_user}}"
+    group: "{{radarr_group}}"
+    mode: 0644
+    remote_src: yes
+
+- name: Configuring Autostart 
+  template:
+    src: templates/radarr.service.j2
+    dest: /etc/systemd/system/radarr.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable Service
+  systemd:
+    name: radarr
+    enabled: yes
+    masked: no
+
+- name: Start Radarr
+  systemd: state=started name=radarr
