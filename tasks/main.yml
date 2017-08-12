@@ -1,15 +1,5 @@
 ---
-# tasks file for ansible-role-sonarr
-
-#- name: Adding key EBFF6B99D9B78493
-#  apt_key:
-#    keyserver: keyserver.ubuntu.com
-#    id: EBFF6B99D9B78493
-#
-#- name: Adding repository http://apt.sonarr.tv/
-#  apt_repository:
-#    repo: deb http://apt.sonarr.tv/ master main
-#    state: present
+# tasks file for ansible-role-radarr
 
 - name: Installing packages 
   package:
@@ -41,6 +31,13 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Configuring Radarr config.xml 
+  template:
+    src: templates/config.xml.j2
+    dest: /home/{{radarr_user}}/.config/Radarr/config.xml
+    owner: "{{radarr_user}}"
+    group: "{{radarr_group}}"
 
 - name: Enable Service
   systemd:

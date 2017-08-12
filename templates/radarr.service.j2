@@ -8,8 +8,8 @@ Group={{radarr_group}}
 
 Type=simple
 PermissionsStartOnly=true
-ExecStartPre=/bin/mkdir -p /home/{{sonarr_user}}/.config/Radarr
-ExecStartPre=/bin/chown {{sonarr_user}}:{{sonarr_group}} -R /home/{{sonarr_user}}/.config/Radarr
+ExecStartPre=/bin/mkdir -p /home/{{radarr_user}}/.config/Radarr
+ExecStartPre=/bin/chown {{radarr_user}}:{{radarr_group}} -R /home/{{radarr_user}}/.config/Radarr
 ExecStart=/usr/bin/mono /opt/Radarr/Radarr.exe -nobrowser
 TimeoutStopSec=20
 KillMode=process

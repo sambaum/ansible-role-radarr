@@ -1,4 +1,12 @@
 ---
-# defaults file for ansible-role-sonarr
+# defaults file for ansible-role-radarr
+radarr_enabled: yes
 radarr_user: nzbdrone
 radarr_group: nzbdrone
+radarr_apikey: ""
+radarr_enablessl: False
+radarr_port: 7878
+radarr_urlbase: ""
+radarr_bindaddress: "*"
+radarr_sslport: 8787
+radarr_branch: develop
