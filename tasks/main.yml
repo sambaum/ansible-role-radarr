@@ -32,6 +32,9 @@
     group: root
     mode: 0644
 
+- name: Ensures /home/{{radarr_user}}/.config/Radarr/ dir exists
+  file: path=/home/{{radarr_user}}/.config/Radarr/ state=directory
+
 - name: Configuring Radarr config.xml 
   template:
     src: templates/config.xml.j2
