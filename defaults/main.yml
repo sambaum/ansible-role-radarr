@@ -1,5 +1,7 @@
 ---
 # defaults file for ansible-role-radarr
+radarr_restart_state: restarted
+
 radarr_enabled: yes
 radarr_user: nzbdrone
 radarr_group: nzbdrone
