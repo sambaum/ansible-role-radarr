@@ -1,6 +1,16 @@
 ---
 # tasks file for ansible-role-radarr
 
+- name: Adding key 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF (mono)
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+- name: Adding repository http://download.mono-project.com/repo/ubuntu
+  apt_repository:
+    repo: "deb http://download.mono-project.com/repo/ubuntu {{ ansible_distribution_release }} main"
+    state: present
+
 - name: Installing packages 
   package:
      name: "{{ item }}"
