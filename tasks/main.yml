@@ -27,7 +27,7 @@
 
 - name: Installing Radarr
   unarchive:
-    src: https://github.com/Radarr/Radarr/releases/download/v0.2.0.852/Radarr.develop.0.2.0.852.linux.tar.gz
+    src: "{{ radarr_source }}"
     dest: /opt/
     owner: "{{radarr_user}}"
     group: "{{radarr_group}}"
