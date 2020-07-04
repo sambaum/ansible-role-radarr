@@ -11,7 +11,7 @@
     repo: "deb http://download.mono-project.com/repo/ubuntu {{ ansible_distribution_release }} main"
     state: present
 
-- name: Installing packages 
+- name: Installing packages
   package:
      name: "{{ item }}"
      state: present
@@ -21,21 +21,21 @@
      - sqlite3
      - libmono-cil-dev
 
-- name: Add user "{{radarr_user}}"
+- name: Add user "{{ radarr_user }}"
   user:
-    name: "{{radarr_user}}"
+    name: "{{ radarr_user }}"
 
 - name: Installing Radarr
   unarchive:
     src: "{{ radarr_source }}"
     dest: /opt/
-    owner: "{{radarr_user}}"
-    group: "{{radarr_group}}"
+    owner: "{{ radarr_user }}"
+    group: "{{ radarr_group }}"
     mode: 0644
     remote_src: yes
     creates: /opt/Radarr/Radarr.exe
 
-- name: Configuring Autostart 
+- name: Configuring Autostart
   template:
     src: templates/radarr.service.j2
     dest: /etc/systemd/system/radarr.service
@@ -43,15 +43,15 @@
     group: root
     mode: 0644
 
-- name: Ensures /home/{{radarr_user}}/.config/Radarr/ dir exists
-  file: path=/home/{{radarr_user}}/.config/Radarr/ state=directory
+- name: Ensures /home/{{ radarr_user }}/.config/Radarr/ dir exists
+  file: path=/home/{{ radarr_user }}/.config/Radarr/ state=directory
 
-- name: Configuring Radarr config.xml 
+- name: Configuring Radarr config.xml
   template:
     src: templates/config.xml.j2
-    dest: /home/{{radarr_user}}/.config/Radarr/config.xml
-    owner: "{{radarr_user}}"
-    group: "{{radarr_group}}"
+    dest: /home/{{ radarr_user }}/.config/Radarr/config.xml
+    owner: "{{ radarr_user }}"
+    group: "{{ radarr_group }}"
 
 - name: Enable Service
   systemd:
