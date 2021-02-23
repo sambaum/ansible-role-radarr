@@ -12,4 +12,4 @@ radarr_urlbase: ""
 radarr_bindaddress: "*"
 radarr_sslport: 8787
 radarr_branch: develop
-radarr_source: https://github.com/Radarr/Radarr/releases/download/v0.2.0.1067/Radarr.develop.0.2.0.1067.linux.tar.gz
+radarr_source: https://github.com/Radarr/Radarr/releases/download/v3.0.2.4552/Radarr.master.3.0.2.4552.linux-core-x64.tar.gz

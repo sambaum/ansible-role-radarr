@@ -1,63 +1,64 @@
 ---
 # tasks file for ansible-role-radarr
 
-- name: Adding key 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF (mono)
-  apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-
-- name: Adding repository http://download.mono-project.com/repo/ubuntu
-  apt_repository:
-    repo: "deb http://download.mono-project.com/repo/ubuntu {{ ansible_distribution_release }} main"
-    state: present
-
 - name: Installing packages
   package:
      name: "{{ item }}"
      state: present
   with_items:
-     - mono-devel
      - mediainfo
-     - sqlite3
-     - libmono-cil-dev
 
 - name: Add user "{{ radarr_user }}"
   user:
     name: "{{ radarr_user }}"
 
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ radarr_user }}"
+    group: "{{ radarr_group }}"
+  with_items:
+     - "/home/{{ radarr_user }}/.config/Radarr/"
+     - /opt/Radarr
+
+- name: Ensures /home/{{ radarr_user }}/.config/Radarr/ dir exists
+  file: path=/home/{{ radarr_user }}/.config/Radarr/ state=directory
+
 - name: Installing Radarr
   unarchive:
     src: "{{ radarr_source }}"
     dest: /opt/
-    owner: "{{ radarr_user }}"
-    group: "{{ radarr_group }}"
-    mode: 0644
     remote_src: yes
-    creates: /opt/Radarr/Radarr.exe
+    creates: /opt/Radarr/Radarr
+  become: yes
+  become_user: "{{ radarr_user }}"
 
 - name: Configuring Autostart
   template:
     src: templates/radarr.service.j2
     dest: /etc/systemd/system/radarr.service
-    owner: root
-    group: root
-    mode: 0644
 
-- name: Ensures /home/{{ radarr_user }}/.config/Radarr/ dir exists
-  file: path=/home/{{ radarr_user }}/.config/Radarr/ state=directory
 
 - name: Configuring Radarr config.xml
   template:
     src: templates/config.xml.j2
     dest: /home/{{ radarr_user }}/.config/Radarr/config.xml
-    owner: "{{ radarr_user }}"
-    group: "{{ radarr_group }}"
+  become: yes
+  become_user: "{{ radarr_user }}"
 
 - name: Enable Service
   systemd:
     name: radarr
     enabled: yes
     masked: no
+
+- name: Enable Service
+  ansible.builtin.systemd:
+    name: radarr
+    state: started
+    enabled: yes
+    daemon_reload: yes
 
 - name: Start Radarr
   systemd: state=started name=radarr
